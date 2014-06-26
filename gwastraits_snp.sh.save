@@ -1,0 +1,20 @@
+#!/bin/bash
+valitraits_list = /Users/user/Postdoc_analysis/traitsgwas.csv
+
+db1 = pubmed
+db2 = snp
+linkname= pubmed_snp
+
+base = http://eutils.ncbi.nlm.nih.gov/entrez/eutils/
+url = $base . esearch.fcgi?db=db1&term=$query&usehistory=y&retmax=5000
+
+#post the esearch URL
+output = get($url)
+
+#parse Ids received
+while ($output =~ /<Id>(\d+?)<\/Id>/sg) {
+        push(@ids, $1);
+}
+
+#assemble the elink URL as an HTTP post call
+$url = $base . "elink.fcgi";
